@@ -5,3 +5,5 @@
 npm-debug.log*
 
 artifacts/cert/server.key
+
+.vscode/

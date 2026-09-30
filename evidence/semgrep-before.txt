@@ -1,0 +1,365 @@
+                    
+                    
+┌──────────────────┐
+│ 42 Code Findings │
+└──────────────────┘
+                                  
+    .github/workflows/e2e-test.yml
+    ❯❱ yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag
+          ❰❰ Blocking ❱❱
+          GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently   
+          repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-
+          github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: 
+          actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.                                         
+          Details: https://sg.run/2LgAL                                                                       
+                                                                                                              
+           16┆ uses: actions/checkout@v2
+            ⋮┆----------------------------------------
+           21┆ uses: actions/setup-node@v1
+            ⋮┆----------------------------------------
+           26┆ uses: actions/cache@v2
+            ⋮┆----------------------------------------
+           58┆ uses: actions/upload-artifact@v2
+                              
+    .github/workflows/lint.yml
+    ❯❱ yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag
+          ❰❰ Blocking ❱❱
+          GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently   
+          repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-
+          github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: 
+          actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.                                         
+          Details: https://sg.run/2LgAL                                                                       
+                                                                                                              
+           16┆ uses: actions/checkout@v2
+            ⋮┆----------------------------------------
+           21┆ uses: actions/setup-node@v1
+                                  
+    .github/workflows/security.yml
+    ❯❱ yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag
+          ❰❰ Blocking ❱❱
+          GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently   
+          repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-
+          github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: 
+          actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.                                         
+          Details: https://sg.run/2LgAL                                                                       
+                                                                                                              
+           16┆ uses: actions/checkout@v4
+            ⋮┆----------------------------------------
+           19┆ uses: semgrep/semgrep-action@v1
+            ⋮┆----------------------------------------
+           31┆ uses: actions/checkout@v4
+            ⋮┆----------------------------------------
+           34┆ uses: actions/setup-node@v4
+            ⋮┆----------------------------------------
+           48┆ uses: actions/checkout@v4
+            ⋮┆----------------------------------------
+           53┆ uses: gitleaks/gitleaks-action@v2
+            ⋮┆----------------------------------------
+           64┆ uses: actions/checkout@v4
+            ⋮┆----------------------------------------
+           70┆ uses: aquasecurity/trivy-action@master
+                               
+    app/routes/contributions.js
+    ❯❱ javascript.browser.security.eval-detected.eval-detected
+          ❰❰ Blocking ❱❱
+          Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this 
+          content can be input from outside the program, this may be a code injection vulnerability. Ensure
+          evaluated content is not definable by external sources.                                          
+          Details: https://sg.run/7ope                                                                     
+                                                                                                           
+           32┆ const preTax = eval(req.body.preTax);
+   
+   ❯❯❱ javascript.lang.security.audit.code-string-concat.code-string-concat
+          ❰❰ Blocking ❱❱
+          Found data from an Express or Next web request flowing to `eval`. If this data is user-controllable
+          this can lead to execution of arbitrary system commands in the context of your application process.
+          Avoid `eval` whenever possible.                                                                    
+          Details: https://sg.run/96Yk                                                                       
+                                                                                                             
+           32┆ const preTax = eval(req.body.preTax);
+   
+    ❯❱ javascript.browser.security.eval-detected.eval-detected
+          ❰❰ Blocking ❱❱
+          Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this 
+          content can be input from outside the program, this may be a code injection vulnerability. Ensure
+          evaluated content is not definable by external sources.                                          
+          Details: https://sg.run/7ope                                                                     
+                                                                                                           
+           33┆ const afterTax = eval(req.body.afterTax);
+   
+   ❯❯❱ javascript.lang.security.audit.code-string-concat.code-string-concat
+          ❰❰ Blocking ❱❱
+          Found data from an Express or Next web request flowing to `eval`. If this data is user-controllable
+          this can lead to execution of arbitrary system commands in the context of your application process.
+          Avoid `eval` whenever possible.                                                                    
+          Details: https://sg.run/96Yk                                                                       
+                                                                                                             
+           33┆ const afterTax = eval(req.body.afterTax);
+   
+    ❯❱ javascript.browser.security.eval-detected.eval-detected
+          ❰❰ Blocking ❱❱
+          Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this 
+          content can be input from outside the program, this may be a code injection vulnerability. Ensure
+          evaluated content is not definable by external sources.                                          
+          Details: https://sg.run/7ope                                                                     
+                                                                                                           
+           34┆ const roth = eval(req.body.roth);
+   
+   ❯❯❱ javascript.lang.security.audit.code-string-concat.code-string-concat
+          ❰❰ Blocking ❱❱
+          Found data from an Express or Next web request flowing to `eval`. If this data is user-controllable
+          this can lead to execution of arbitrary system commands in the context of your application process.
+          Avoid `eval` whenever possible.                                                                    
+          Details: https://sg.run/96Yk                                                                       
+                                                                                                             
+           34┆ const roth = eval(req.body.roth);
+                       
+    app/routes/index.js
+    ❯❱ javascript.express.security.audit.express-open-redirect.express-open-redirect
+          ❰❰ Blocking ❱❱
+          The application redirects to a URL specified by user-supplied input `req` that is not validated.   
+          This could redirect users to malicious locations. Consider using an allow-list approach to validate
+          URLs, or warn users they are being redirected to a third-party website.                            
+          Details: https://sg.run/EpoP                                                                       
+                                                                                                             
+           72┆ return res.redirect(req.query.url);
+                           
+    app/views/benefits.html
+    ❯❱ python.django.security.django-no-csrf-token.django-no-csrf-token
+          ❰❰ Blocking ❱❱
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.
+          Details: https://sg.run/N0Bp                                                                   
+                                                                                                         
+           54┆ <form method="POST" action="/benefits">
+           55┆     <div class="input-group">
+           56┆         <input type="hidden" name="userId" value="{{user._id.toString()}}"></input>
+           57┆         <input type="date" class="form-control" name="benefitStartDate"
+               value="{{user.benefitStartDate}}"></input>                             
+           58┆         <span class="input-group-btn">
+           59┆             <button type="submit" class="btn btn-default">Save</button>
+           60┆         </span>
+           61┆     </div>
+           62┆     <!-- /input-group -->
+           63┆ </form>
+                        
+    app/views/login.html
+    ❯❱ python.django.security.django-no-csrf-token.django-no-csrf-token
+          ❰❰ Blocking ❱❱
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.
+          Details: https://sg.run/N0Bp                                                                   
+                                                                                                         
+          107┆ <form method="post" role="form" method="post" id="loginform">
+          108┆     <div class="form-group">
+          109┆         <label for="userName">User Name</label>
+          110┆         <input type="text" class="form-control" id="userName" name="userName"
+               value="{{userName}}" placeholder="Enter User Name">                          
+          111┆     </div>
+          112┆
+          113┆     <div class="form-group">
+          114┆         <label for="password">Password</label>
+          115┆         <input type="password" class="form-control" id="password" name="password"
+               value="{{password}}" placeholder="Enter Password">                               
+          116┆     </div>
+             [hid 11 additional lines, adjust with --max-lines-per-finding] 
+                        
+    app/views/memos.html
+    ❯❱ python.django.security.django-no-csrf-token.django-no-csrf-token
+          ❰❰ Blocking ❱❱
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.
+          Details: https://sg.run/N0Bp                                                                   
+                                                                                                         
+           15┆ <form action="/memos" method="post" role="search">
+           16┆
+           17┆     <div class="form-group">
+           18┆         <textarea class="form-control" name="memo"></textarea>
+           19┆         <p class="help-block">You may use Markdown syntax to format your memo</p>
+           20┆     </div>
+           21┆
+           22┆     <button type="submit" class="btn btn-primary">Submit</button>
+           23┆ </form>
+                              
+    app/views/tutorial/a2.html
+    ❯❱ html.security.plaintext-http-link.plaintext-http-link
+          ❰❰ Blocking ❱❱
+          This link points to a plaintext HTTP URL. Prefer an encrypted HTTPS URL if possible.
+          Details: https://sg.run/RA5q                                                        
+                                                                                              
+          207┆ <li><a href="http://recxltd.blogspot.sg/2012/03/seven-web-server-http-headers-             
+               that.html">Seven Web Server HTTP Headers that Improve Web Application Security for Free</a>
+            ⋮┆----------------------------------------
+          209┆ <li><a href="http://passportjs.org/guide/authenticate/">Passport</a> authentication
+               middleware</li>                                                                    
+            ⋮┆----------------------------------------
+          210┆ <li><a href="http://en.wikipedia.org/wiki/Session_fixation">CWE-384: Session Fixation</a>
+                              
+    app/views/tutorial/a5.html
+    ❯❱ html.security.plaintext-http-link.plaintext-http-link
+          ❰❰ Blocking ❱❱
+          This link points to a plaintext HTTP URL. Prefer an encrypted HTTPS URL if possible.
+          Details: https://sg.run/RA5q                                                        
+                                                                                              
+           50┆ Use latest stable version of node.js and express (or other web framework you are using).
+               Keep a watch on published vulnerabilities of these. The vulnerabilities for node.js and 
+               express.js can be found <a href="http://blog.nodejs.org/vulnerability/">here</a> and    
+            ⋮┆----------------------------------------
+           51┆ <a href="http://expressjs.com/advanced/security-updates.html">here</a>, respectively.
+                         
+    artifacts/db-reset.js
+   ❯❯❱ generic.secrets.security.detected-bcrypt-hash.detected-bcrypt-hash
+          ❰❰ Blocking ❱❱
+          bcrypt hash detected        
+          Details: https://sg.run/3A8G
+                                      
+           19┆ //"password" : "$2a$10$8Zo/1e8KM8QzqOKqbDlYlONBOzukWXrM.IiyzqHRYDXqwB3gzDsba", // Admin_123
+            ⋮┆----------------------------------------
+           28┆ // "password" : "$2a$10$RNFhiNmt2TTpVO9cqZElb.LQM9e1mzDoggEHufLjAnAKImc6FNE86",// User1_123
+            ⋮┆----------------------------------------
+           36┆ //"password" : "$2a$10$Tlx2cNv15M0Aia7wyItjsepeA8Y6PyBYaNdQqvpxkIUlcONf1ZHyq", // User2_123
+                      
+    docker-compose.yml
+    ❯❱ yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          ❰❰ Blocking ❱❱
+          Service 'mongo' allows for privilege escalation via setuid or setgid binaries. Add 'no-new-
+          privileges:true' in 'security_opt' to prevent this.                                        
+          Details: https://sg.run/0n8q                                                               
+                                                                                                     
+           13┆ mongo:
+   
+    ❯❱ yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          ❰❰ Blocking ❱❱
+          Service 'mongo' is running with a writable root filesystem. This may allow malicious applications to
+          download and run additional payloads, or modify container files. If an application inside a         
+          container has to save something temporarily consider using a tmpfs. Add 'read_only: true' to this   
+          service to prevent this.                                                                            
+          Details: https://sg.run/e4JE                                                                        
+                                                                                                              
+           13┆ mongo:
+             
+    server.js
+     ❱ javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
+          ❰❰ Blocking ❱❱
+          A CSRF middleware was not detected in your express application. Ensure you are either using one such
+          as `csurf` or `csrf` (see rule references) and/or you are properly doing CSRF validation in your    
+          routes with a token or cookies.                                                                     
+          Details: https://sg.run/BxzR                                                                        
+                                                                                                              
+           15┆ const app = express(); // Web framework to handle routing requests
+   
+    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-default-name
+          ❰❰ Blocking ❱❱
+          Don’t use the default session cookie name Using the default session cookie name can open your app to
+          attacks. The security issue posed is similar to X-Powered-By: a potential attacker can use it to    
+          fingerprint the server and target attacks accordingly.                                              
+          Details: https://sg.run/1Z5x                                                                        
+                                                                                                              
+           78┆ app.use(session({
+           79┆     // genid: (req) => {
+           80┆     //    return genuuid() // use UUIDs for session IDs
+           81┆     //},
+           82┆     secret: cookieSecret,
+           83┆     // Both mandatory in Express v4
+           84┆     saveUninitialized: true,
+           85┆     resave: true
+           86┆     /*
+           87┆     // Fix for A5 - Security MisConfig
+             [hid 15 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-domain
+          ❰❰ Blocking ❱❱
+          Default session middleware settings: `domain` not set. It indicates the domain of the cookie; use it
+          to compare against the domain of the server in which the URL is being requested. If they match, then
+          check the path attribute next.                                                                      
+          Details: https://sg.run/rd41                                                                        
+                                                                                                              
+           78┆ app.use(session({
+           79┆     // genid: (req) => {
+           80┆     //    return genuuid() // use UUIDs for session IDs
+           81┆     //},
+           82┆     secret: cookieSecret,
+           83┆     // Both mandatory in Express v4
+           84┆     saveUninitialized: true,
+           85┆     resave: true
+           86┆     /*
+           87┆     // Fix for A5 - Security MisConfig
+             [hid 15 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-expires
+          ❰❰ Blocking ❱❱
+          Default session middleware settings: `expires` not set. Use it to set expiration date for persistent
+          cookies.                                                                                            
+          Details: https://sg.run/N4eG                                                                        
+                                                                                                              
+           78┆ app.use(session({
+           79┆     // genid: (req) => {
+           80┆     //    return genuuid() // use UUIDs for session IDs
+           81┆     //},
+           82┆     secret: cookieSecret,
+           83┆     // Both mandatory in Express v4
+           84┆     saveUninitialized: true,
+           85┆     resave: true
+           86┆     /*
+           87┆     // Fix for A5 - Security MisConfig
+             [hid 15 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-httponly
+          ❰❰ Blocking ❱❱
+          Default session middleware settings: `httpOnly` not set. It ensures the cookie is sent only over
+          HTTP(S), not client JavaScript, helping to protect against cross-site scripting attacks.        
+          Details: https://sg.run/ydBO                                                                    
+                                                                                                          
+           78┆ app.use(session({
+           79┆     // genid: (req) => {
+           80┆     //    return genuuid() // use UUIDs for session IDs
+           81┆     //},
+           82┆     secret: cookieSecret,
+           83┆     // Both mandatory in Express v4
+           84┆     saveUninitialized: true,
+           85┆     resave: true
+           86┆     /*
+           87┆     // Fix for A5 - Security MisConfig
+             [hid 15 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-path
+          ❰❰ Blocking ❱❱
+          Default session middleware settings: `path` not set. It indicates the path of the cookie; use it to
+          compare against the request path. If this and domain match, then send the cookie in the request.   
+          Details: https://sg.run/b7pd                                                                       
+                                                                                                             
+           78┆ app.use(session({
+           79┆     // genid: (req) => {
+           80┆     //    return genuuid() // use UUIDs for session IDs
+           81┆     //},
+           82┆     secret: cookieSecret,
+           83┆     // Both mandatory in Express v4
+           84┆     saveUninitialized: true,
+           85┆     resave: true
+           86┆     /*
+           87┆     // Fix for A5 - Security MisConfig
+             [hid 15 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-secure
+          ❰❰ Blocking ❱❱
+          Default session middleware settings: `secure` not set. It ensures the browser only sends the cookie
+          over HTTPS.                                                                                        
+          Details: https://sg.run/9oKz                                                                       
+                                                                                                             
+           78┆ app.use(session({
+           79┆     // genid: (req) => {
+           80┆     //    return genuuid() // use UUIDs for session IDs
+           81┆     //},
+           82┆     secret: cookieSecret,
+           83┆     // Both mandatory in Express v4
+           84┆     saveUninitialized: true,
+           85┆     resave: true
+           86┆     /*
+           87┆     // Fix for A5 - Security MisConfig
+             [hid 15 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ problem-based-packs.insecure-transport.js-node.using-http-server.using-http-server
+          ❰❰ Blocking ❱❱
+          Checks for any usage of http servers instead of https servers. Encourages the usage of https       
+          protocol instead of http, which does not have TLS and is therefore unencrypted. Using http can lead
+          to man-in-the-middle attacks in which the attacker is able to read sensitive information.          
+          Details: https://sg.run/x1zL                                                                       
+                                                                                                             
+          145┆ http.createServer(app).listen(port, () => {
