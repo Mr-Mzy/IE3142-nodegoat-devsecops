@@ -28,7 +28,12 @@
         {% for doc in memosList %}
         <div class="panel panel-info">
             <div class="panel-body">
-                {{ marked(doc.memo) }}
+
+                <!-- CHANGED: Removed marked(doc.memo) to prevent unsafe Markdown/HTML rendering -->
+                <!-- BEFORE (VULNERABLE): {{ marked(doc.memo) }} -->
+                <!-- AFTER (SECURE): -->
+                {{ doc.memo }}
+
             </div>
         </div>
         {% endfor %}

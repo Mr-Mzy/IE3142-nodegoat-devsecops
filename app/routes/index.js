@@ -67,10 +67,31 @@ const index = (app, db) => {
     app.post("/memos", isLoggedIn, memosHandler.addMemos);
 
     // Handle redirect for learning resources link
-    app.get("/learn", isLoggedIn, (req, res) => {
-        // Insecure way to handle redirects by taking redirect url from query string
-        return res.redirect(req.query.url);
-    });
+app.get("/learn", isLoggedIn, (req, res) => {
+    const redirectUrl = req.query.url;
+
+    try {
+        // CHANGED: Validate the redirect destination
+        const targetUrl = new URL(
+            redirectUrl,
+            `${req.protocol}://${req.get("host")}`
+        );
+
+        // CHANGED: Only allow redirects to the same application
+        const applicationOrigin = `${req.protocol}://${req.get("host")}`;
+
+        if (targetUrl.origin !== applicationOrigin) {
+            return res.redirect("/dashboard");
+        }
+
+        return res.redirect(
+            targetUrl.pathname + targetUrl.search + targetUrl.hash
+        );
+    } catch (error) {
+        // CHANGED: Reject invalid redirect URLs
+        return res.redirect("/dashboard");
+    }
+});
 
     // Research Page
     app.get("/research", isLoggedIn, researchHandler.displayResearch);
