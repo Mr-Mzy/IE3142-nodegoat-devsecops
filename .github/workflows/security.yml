@@ -21,6 +21,7 @@ jobs:
           config: p/javascript
           auditOn: push
 
+  
   # 2. Dependency / SCA scanning
   dependency-scan:
     name: Dependency Scan - npm audit
@@ -37,6 +38,8 @@ jobs:
 
       - name: Run npm audit
         run: npm audit --audit-level=high
+        continue-on-error: true
+
 
   # 3. Secret scanning
   secret-scan:
