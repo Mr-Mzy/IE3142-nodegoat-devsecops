@@ -5,3 +5,14 @@ docker-compose.yml
 .github
 .gitignore
 node_modules
+
+# Local database backups and generated scan reports
+*.archive
+*.tar
+*.bak
+*.backup
+audit-*.json
+npm-audit.json
+production-audit.json
+trivy-*.txt
+trivy-final.txt-+
