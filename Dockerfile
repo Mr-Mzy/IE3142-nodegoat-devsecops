@@ -1,18 +1,36 @@
-FROM node:12-alpine
-ENV WORKDIR /usr/src/app/
-WORKDIR $WORKDIR
-COPY package*.json $WORKDIR
-RUN npm install --production --no-cache
+# Stage 1: Install production dependencies
+FROM node:22-alpine AS dependencies
 
-FROM node:12-alpine
-ENV USER node
-ENV WORKDIR /home/$USER/app
+WORKDIR /usr/src/app
+
+# Copy package files first to improve build caching
+COPY package.json package-lock.json ./
+
+# Install exact dependencies from the lockfile
+RUN npm ci --omit=dev
+
+
+# Stage 2: Build the production application image
+FROM node:22-alpine
+
+ENV NODE_ENV=production
+ENV USER=node
+ENV WORKDIR=/home/node/app
+
 WORKDIR $WORKDIR
-COPY --from=0 /usr/src/app/node_modules node_modules
-RUN chown $USER:$USER $WORKDIR
-COPY --chown=node . $WORKDIR
-# In production environment uncomment the next line
-#RUN chown -R $USER:$USER /home/$USER && chmod -R g-s,o-rx /home/$USER && chmod -R o-wrx $WORKDIR
-# Then all further actions including running the containers should be done under non-root user.
-USER $USER
+
+# Copy installed production dependencies
+COPY --from=dependencies /usr/src/app/node_modules ./node_modules
+
+# Copy application source code with correct ownership
+COPY --chown=node:node . .
+
+# Run the application as a non-root user
+USER node
+
+# NodeGoat listens on port 4000
 EXPOSE 4000
+
+# Start NodeGoat
+CMD ["npm", "start"]
+

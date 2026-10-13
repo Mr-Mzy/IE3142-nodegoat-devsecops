@@ -23,6 +23,25 @@ jobs:
 
   
   # 2. Dependency / SCA scanning
+  # dependency-scan:
+  #   name: Dependency Scan - npm audit
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout source code
+  #       uses: actions/checkout@v4
+
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "14"
+
+  #     - name: Run npm audit
+  #       run: npm audit --audit-level=high
+  #       continue-on-error: true
+ 
+    
+  # 2. Dependency / SCA scanning
   dependency-scan:
     name: Dependency Scan - npm audit
     runs-on: ubuntu-latest
@@ -34,11 +53,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "14"
+          node-version: "22"
+          cache: "npm"
 
-      - name: Run npm audit
-        run: npm audit --audit-level=high
-        continue-on-error: true
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
 
 
   # 3. Secret scanning

@@ -17,7 +17,7 @@ function ContributionsHandler(db) {
         contributionsDAO.getByUserId(userId, (error, contrib) => {
             if (error) return next(error);
 
-            contrib.userId = userId; //set for nav menu items
+            contrib.userId = userId; // set for nav menu items
             return res.render("contributions", {
                 ...contrib,
                 environmentalScripts
@@ -27,24 +27,30 @@ function ContributionsHandler(db) {
 
     this.handleContributionsUpdate = (req, res, next) => {
 
-        // UPDATED FOR CODE INJECTION - Replace eval() with safe numeric conversion
-    const preTax = Number(req.body.preTax);
-    const afterTax = Number(req.body.afterTax);
-    const roth = Number(req.body.roth);
+        // SECURITY FIX: Replace eval() with safe numeric conversion
+        const preTaxInput = req.body.preTax;
+        const afterTaxInput = req.body.afterTax;
+        const rothInput = req.body.roth;
 
-        /*
-        //Fix for A1 -1 SSJS Injection attacks - uses alternate method to eval
-        const preTax = parseInt(req.body.preTax);
-        const afterTax = parseInt(req.body.afterTax);
-        const roth = parseInt(req.body.roth);
-        */
+        const preTax = Number(preTaxInput);
+        const afterTax = Number(afterTaxInput);
+        const roth = Number(rothInput);
+
         const {
             userId
         } = req.session;
 
-        //validate contributions
-        const validations = [isNaN(preTax), isNaN(afterTax), isNaN(roth), preTax < 0, afterTax < 0, roth < 0];
-        const isInvalid = validations.some(validation => validation);
+        // Validate required inputs and reject invalid percentages
+        const inputs = [preTaxInput, afterTaxInput, rothInput];
+        const values = [preTax, afterTax, roth];
+
+        const isInvalid = inputs.some((input, index) =>
+            typeof input !== "string" ||
+            input.trim() === "" ||
+            !Number.isFinite(values[index]) ||
+            values[index] < 0
+        );
+
         if (isInvalid) {
             return res.render("contributions", {
                 updateError: "Invalid contribution percentages",
@@ -52,7 +58,8 @@ function ContributionsHandler(db) {
                 environmentalScripts
             });
         }
-        // Prevent more than 30% contributions
+
+        // Prevent more than 30% total contributions
         if (preTax + afterTax + roth > 30) {
             return res.render("contributions", {
                 updateError: "Contribution percentages cannot exceed 30 %",
@@ -61,19 +68,22 @@ function ContributionsHandler(db) {
             });
         }
 
-        contributionsDAO.update(userId, preTax, afterTax, roth, (err, contributions) => {
+        contributionsDAO.update(
+            userId,
+            preTax,
+            afterTax,
+            roth,
+            (err, contributions) => {
+                if (err) return next(err);
 
-            if (err) return next(err);
-
-            contributions.updateSuccess = true;
-            return res.render("contributions", {
-                ...contributions,
-                environmentalScripts
-            });
-        });
-
+                contributions.updateSuccess = true;
+                return res.render("contributions", {
+                    ...contributions,
+                    environmentalScripts
+                });
+            }
+        );
     };
-
 }
 
 module.exports = ContributionsHandler;
